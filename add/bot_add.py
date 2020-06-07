@@ -1,8 +1,9 @@
 import telebot
 
-bot = telebot.TeleBot("Add your token")
-# token removed for safety reasons
-
+f = open("token", "r")
+token = f.read()
+f.close()
+bot = telebot.TeleBot(token)
 
 rules = "You can play and feed your pet using customized keyboard.\
 But remember that all your actions affect your pet.\

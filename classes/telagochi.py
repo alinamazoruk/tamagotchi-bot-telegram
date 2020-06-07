@@ -3,7 +3,6 @@ import math
 import random
 import telebot
 
-
 from classes.event import *
 from add.bot_add import ban
 from add.bot_add import is_banned
@@ -88,7 +87,7 @@ class Telagochi:
     def effect_event(self, event):
         if not self.increase_balance(event.balance):
             self.say("Not enough money! Do something useful")
-            return
+            return False
 
         happiness = event.happiness
         if happiness is None:
@@ -99,16 +98,17 @@ class Telagochi:
         self.increase_happiness(happiness)
         if self.happiness < 0:
             self.death(reason="sadness")
-            return
+            return True
         self.increase_health(event.health)
         if self.health < 0:
             self.death(reason="illness")
-            return
+            return True
         self.increase_energy(event.energy)
         if self.energy < 0:
             self.death(reason="exhaustion")
-            return
+            return True
         self.say(self.get_info(Event(None, None, happiness, event.health, event.energy, event.balance)))
+        return True
 
     def sprint_age(self):
         age = datetime.datetime.now() - self.birth_time
@@ -121,28 +121,28 @@ class Telagochi:
         if event is None:
             return \
                 f"Telegochi info:\n" \
-                f"Name:      {self.name}\n" \
-                f"Age:       {self.sprint_age()} \n" \
-                f"Happiness: {self.get_happiness()}\n" \
-                f"Health:    {self.health}\n" \
-                f"Energy:    {self.energy}\n" \
-                f"Balance:   {self.balance}"
+                f"Name: {self.name}\n" \
+                f"Age: {self.sprint_age()} \n" \
+                f"Happiness: {self.happiness} {self.get_happiness()}\n" \
+                f"Health: {self.health}\n" \
+                f"Energy: {self.energy}\n" \
+                f"Balance: {self.balance}"
         return \
             "Telegochi info:\n" \
-            f"Name:      {self.name}\n" \
-            f"Age:       {self.sprint_age()}\n" \
-            f"Happiness: {self.get_happiness()} ({event.happiness:+d})\n" \
-            f"Health:    {self.health} ({event.health:+d})\n" \
-            f"Energy:    {self.energy} ({event.energy:+d})\n" \
-            f"Balance:   {self.balance} ({event.balance:+d})"
+            f"Name: {self.name}\n" \
+            f"Age: {self.sprint_age()}\n" \
+            f"Happiness: {self.happiness} {self.get_happiness()} ({event.happiness:+d})\n" \
+            f"Health: {self.health} ({event.health:+d})\n" \
+            f"Energy: {self.energy} ({event.energy:+d})\n" \
+            f"Balance: {self.balance} ({event.balance:+d})"
 
     def eat(self, food):
-        self.effect_event(food)
-        self.say("mmmm, i love " + food.name + " so much!")
+        if self.effect_event(food):
+            self.say("mmmm, i love " + food.name + " so much!")
 
     def play(self, activity):
-        self.effect_event(activity)
-        self.say("Yea, i love to play " + activity.name + " so much!")
+        if self.effect_event(activity):
+            self.say("Yea, i love to play " + activity.name + " so much!")
 
     def get_preferences(self):
         res = "```\n" \
@@ -153,13 +153,13 @@ class Telagochi:
             h = f"{self.happiness_event.get(Telagochi.food[k]):+5d}" if self.happiness_event.get(
                 Telagochi.food[k]) is not None else '    ?'
 
-            res += f"{k:4s}|{h}|{Telagochi.food[k].health:+6d}|{Telagochi.food[k].energy:+6d}|{Telagochi.food[k].balance:+7d}\n"
+            res += f"{k:3s}|{h}|{Telagochi.food[k].health:+6d}|{Telagochi.food[k].energy:+6d}|{Telagochi.food[k].balance:+7d}\n"
 
         for k in Telagochi.activities:
             h = f"{self.happiness_event.get(Telagochi.activities[k]):+5d}" if self.happiness_event.get(
                 Telagochi.activities[k]) is not None else '    ?'
 
-            res += f"{k:4s}|{h}|{Telagochi.activities[k].health:+6d}|{Telagochi.activities[k].energy:+6d}|{Telagochi.activities[k].balance:+7d}\n"
+            res += f"{k:3s}|{h}|{Telagochi.activities[k].health:+6d}|{Telagochi.activities[k].energy:+6d}|{Telagochi.activities[k].balance:+7d}\n"
         res += "```"
         return res
 
