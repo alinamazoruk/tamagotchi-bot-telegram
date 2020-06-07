@@ -138,3 +138,47 @@ class Telagochi:
 
     def play(self, activity):
         self.effect_event(activity)
+
+    def get_preferences(self):
+        res = "```\n" \
+              "name|happy|health|energy|balance\n" \
+              "--------------------------------\n"
+
+        for k in Telagochi.food:
+            h = f"{self.happiness_event.get(Telagochi.food[k]):+5d}" if self.happiness_event.get(
+                Telagochi.food[k]) is not None else '    ?'
+
+            res += f"{k:4s}|{h}|{Telagochi.food[k].health:+6d}|{Telagochi.food[k].energy:+6d}|{Telagochi.food[k].balance:+7d}\n"
+
+        for k in Telagochi.activities:
+            h = f"{self.happiness_event.get(Telagochi.activities[k]):+5d}" if self.happiness_event.get(
+                Telagochi.activities[k]) is not None else '    ?'
+
+            res += f"{k:4s}|{h}|{Telagochi.activities[k].health:+6d}|{Telagochi.activities[k].energy:+6d}|{Telagochi.activities[k].balance:+7d}\n"
+        res += "```"
+        return res
+
+    def death(self, reason=None):
+        if reason is None:
+            self.say("I am dead")
+        else:
+            self.say(f"I am dead for a reason: {reason}")
+        self.say("Game over")
+        ban.append(self.user_id)
+
+    keyboard = telebot.types.ReplyKeyboardMarkup(True, True)
+
+    keyboard.row("/start", "/born", "/info", "/preferences")
+
+    keyboard.row(*(food.keys()))
+    keyboard.row(*(activities.keys()))
+
+    def say(self, text, custom_keyboard=keyboard, parse_mode=None):
+        if is_banned(self.user_id):
+            bot.send_message(self.user_id, "I don't believe you anymore")
+            return
+        bot.send_message(self.user_id, text, reply_markup=custom_keyboard, parse_mode=parse_mode)
+
+
+bot = telebot.TeleBot()
+
