@@ -19,30 +19,30 @@ def normalize(i):
 class Telagochi:
     happiness_smiles = ["💀", "😭", "😫", "😕", "😄", "😀"]
     food = {
-        u"\U0001F34A": Event("Food", "Orange", None, 20, 20, -10),
-        u"\U0001F34B": Event("Food", "Lemon", None, 20, 20, -10),
-        u"\U0001F34C": Event("Food", "Banana", None, 20, 20, -10),
-        u"\U0001F34D": Event("Food", "Pineapple", None, 20, 20, -10),
-        u"\U0001F34E": Event("Food", "Apple", None, 20, 20, -10),
-        u"\U0001F351": Event("Food", "Peach", None, 20, 20, -10),
-        u"\U0001F352": Event("Food", "Cherry", None, 20, 20, -10),
-        u"\U0001F353": Event("Food", "Strawberry", None, 20, 20, -10),
-        u"\U0001F354": Event("Food", "Hamburger", None, 20, 20, -10),
-        u"\U0001F355": Event("Food", "Pizza", None, 20, 20, -10),
-        u"\U0001F36A": Event("Food", "Cookies", None, 20, 20, -10),
-        u"\U0001F966": Event("Food", "Broccoli", None, 20, 20, -10),
+        u"\U0001F34A": Event("Food", "Orange", None, 20, 20, -6),
+        u"\U0001F34B": Event("Food", "Lemon", None, 20, 20, -8),
+        u"\U0001F34C": Event("Food", "Banana", None, 20, 20, -3),
+        u"\U0001F34D": Event("Food", "Pineapple", None, 20, 20, -12),
+        u"\U0001F34E": Event("Food", "Apple", None, 20, 20, -5),
+        u"\U0001F351": Event("Food", "Peach", None, 20, 20, -14),
+        u"\U0001F352": Event("Food", "Cherry", None, 20, 20, -7),
+        u"\U0001F353": Event("Food", "Strawberry", None, 20, 20, -9),
+        u"\U0001F354": Event("Food", "Hamburger", None, 20, 20, -18),
+        u"\U0001F355": Event("Food", "Pizza", None, 20, 20, -17),
+        u"\U0001F36A": Event("Food", "Cookies", None, 20, 20, -16),
+        u"\U0001F966": Event("Food", "Broccoli", None, 20, 20, -2),
     }
 
     activities = {
-        u"⚽": Event("Play", "Football", None, 20, -20, 10),
-        u"🏈": Event("Play", "Rugby", None, 20, -20, 10),
-        u"⚾": Event("Play", "Baseball", None, 20, -20, 10),
-        u"🎾": Event("Play", "Tennis", None, 20, -20, 10),
-        u"🏐": Event("Play", "Volleyball", None, 20, -20, 10),
-        u"🏓": Event("Play", "Ping-Pong", None, 20, -20, 10),
-        u"🏒": Event("Play", "Hockey", None, 20, -20, 10),
-        u"🏃": Event("Play", "Dogolyalki", None, 20, -20, 10),
-        u"\U0001F3AE": Event("Play", "Video-Games", None, 20, -20, 10),
+        u"⚽": Event("Play", "Football", None, 20, -20, 20),
+        u"🏈": Event("Play", "Rugby", None, 20, -20, 13),
+        u"⚾": Event("Play", "Baseball", None, 20, -20, 9),
+        u"🎾": Event("Play", "Tennis", None, 20, -20, 30),
+        u"🏐": Event("Play", "Volleyball", None, 20, -20, 7),
+        u"🏓": Event("Play", "Ping-Pong", None, 20, -20, 5),
+        u"🏒": Event("Play", "Hockey", None, 20, -20, 25),
+        u"🏃": Event("Play", "Game of tag", None, 20, -20, 17),
+        u"\U0001F3AE": Event("Play", "Video-Games", None, 20, -20, 18),
     }
 
     keyboard = telebot.types.ReplyKeyboardMarkup(True, True)
@@ -138,9 +138,11 @@ class Telagochi:
 
     def eat(self, food):
         self.effect_event(food)
+        self.say("mmmm, i love " + food.name + " so much!")
 
     def play(self, activity):
         self.effect_event(activity)
+        self.say("Yea, i love to play " + activity.name + " so much!")
 
     def get_preferences(self):
         res = "```\n" \

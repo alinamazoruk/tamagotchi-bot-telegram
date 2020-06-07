@@ -1,15 +1,20 @@
 import telebot
 
+f = open("token", "r")
+string = f.read()
+bot = telebot.TeleBot(string)
+f.close()
 
-bot = telebot.TeleBot()
-
-rules = ""
+rules = "You can play and feed your pet.\
+But remember that all your actions affect your pet.\
+You won't be given a second chance, so treat it well\
+'You become responsible forever for what you've tamed.' ― Antoine de Saint-Exupéry, The Little Prince"
 
 telagochies = {}
 
 is_updater_running = False
 
-updater_delay = 10
+updater_delay = 30
 
 ban = []
 admins = [256294474]
