@@ -1,11 +1,13 @@
 import datetime
 import math
+import random
 
 
 def normalize(i):
     if i > 100:
         i = 100
     return i
+
 
 class Event:
 
@@ -79,3 +81,35 @@ class Telagochi:
             self.balance += int(i)
             return True
         return False
+
+    def effect_event(self, event):
+        if not self.increase_balance(event.balance):
+            self.say("Not enough money! do something useful")
+            return
+
+        happiness = event.happiness
+        if happiness is None:
+            if self.happiness_event.get(event) is None:
+                self.happiness_event[event] = random.randint(-30, 30)
+            happiness = self.happiness_event[event]
+
+        self.increase_happiness(happiness)
+        if self.happiness < 0:
+            self.death(reason="sadness")
+            return
+        self.increase_health(event.health)
+        if self.health < 0:
+            self.death(reason="illness")
+            return
+        self.increase_energy(event.energy)
+        if self.energy < 0:
+            self.death(reason="exhaustion")
+            return
+        self.say(self.get_info(Event(None, None, happiness, event.health, event.energy, event.balance)))
+
+    def sprint_age(self):
+        age = datetime.datetime.now() - self.birth_time
+        return f"{age.days}d, {age.seconds // 3600}h, {(age.seconds % 3600) // 60}m, {age.seconds % 60}s"
+
+    def get_age(self):
+        return datetime.datetime.now() - self.birth_time
