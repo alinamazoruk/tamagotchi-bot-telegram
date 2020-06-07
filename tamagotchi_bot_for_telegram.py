@@ -113,3 +113,28 @@ class Telagochi:
 
     def get_age(self):
         return datetime.datetime.now() - self.birth_time
+
+    def get_info(self, event=None):
+        if event is None:
+            return \
+                f"Telegochi info:\n" \
+                f"Name:      {self.name}\n" \
+                f"Age:       {self.sprint_age()} \n" \
+                f"Happiness: {self.get_happiness()}\n" \
+                f"Health:    {self.health}\n" \
+                f"Energy:    {self.energy}\n" \
+                f"Balance:   {self.balance}"
+        return \
+            "Telegochi info:\n" \
+            f"Name:      {self.name}\n" \
+            f"Age:       {self.sprint_age()}\n" \
+            f"Happiness: {self.get_happiness()} ({event.happiness:+d})\n" \
+            f"Health:    {self.health} ({event.health:+d})\n" \
+            f"Energy:    {self.energy} ({event.energy:+d})\n" \
+            f"Balance:   {self.balance} ({event.balance:+d})"
+
+    def eat(self, food):
+        self.effect_event(food)
+
+    def play(self, activity):
+        self.effect_event(activity)
