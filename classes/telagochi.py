@@ -92,7 +92,7 @@ class Telagochi:
         happiness = event.happiness
         if happiness is None:
             if self.happiness_event.get(event) is None:
-                self.happiness_event[event] = random.randint(-30, 30)
+                self.happiness_event[event] = random.randint(-15, 15)
             happiness = self.happiness_event[event]
 
         self.increase_happiness(happiness)
