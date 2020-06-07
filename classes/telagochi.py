@@ -87,7 +87,7 @@ class Telagochi:
 
     def effect_event(self, event):
         if not self.increase_balance(event.balance):
-            self.say("Not enough money! do something useful")
+            self.say("Not enough money! Do something useful")
             return
 
         happiness = event.happiness

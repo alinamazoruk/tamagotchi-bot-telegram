@@ -1,13 +1,12 @@
 import telebot
 
-f = open("token", "r")
-string = f.read()
-bot = telebot.TeleBot(string)
-f.close()
+
+bot = telebot.TeleBot("1244775976:AAEpZuesdgpHkYBNwT0lIfN6mV5jxBKqL8w")
+
 
 rules = "You can play and feed your pet.\
 But remember that all your actions affect your pet.\
-You won't be given a second chance, so treat it well\
+You won't be given a second chance, so treat it well\n\
 'You become responsible forever for what you've tamed.' ― Antoine de Saint-Exupéry, The Little Prince"
 
 telagochies = {}
